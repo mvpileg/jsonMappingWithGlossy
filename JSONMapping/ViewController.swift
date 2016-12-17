@@ -7,19 +7,46 @@
 //
 
 import UIKit
+import Gloss
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    @IBOutlet weak var io: UITextView!
+    
+    var jsons: [JSON]?
+    
+    var model: [Tab]?
+    
+    @IBAction func initialize() {
+        model = [Tab]()
+        
+        model!.append(Tab())
+        model!.append(Tab())
+    }
+    
+    //turn tab into json
+    @IBAction func serialize() {
+        
+        if let tabs = model {
+            jsons = tabs.toJSONArray()
+            io.text = jsons?.description
+        } else {
+            io.text = "UNITIALIZED MODEL"
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    //turn json into tab
+    @IBAction func deserialize() {
+        if let jsons = jsons {
+            model = [Tab].from(jsonArray: jsons)
+            io.text = model?.description
+        } else {
+            io.text = "UNITIALIZED JSON"
+        }
+        
     }
-
+    
 
 }
+
 
